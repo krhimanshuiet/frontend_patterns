@@ -5,3 +5,4 @@ Front End Patterns
 2.React Patterns
 3.Performance Patterns
 4.Rendering Patterns 
+5.SOLID Principle
