@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import Listings from "./components/PresentationalPattern/Listings";
+import "./App.css";
+import { StyledButton, StyledText } from "./components/HocPattern/Text";
+import ListingsContainerComponent from "./components/containerPattern/Listing";
+import TemperatureConverter, {
+  Kelvin,
+  Fahrenheit,
+} from "./components/RenderPropsPattern/TemperatreConverter";
+import HooksListing from "./components/HooksPattern/HooksListing";
+import { useTheme } from "./components/ProviderPattern/ThemeProvider";
+import ThemeToggleButton from "./components/ProviderPattern/ThemeToggleButton";
+import { useCallback } from "react";
+import Input from "./components/ProviderPattern/Input";
+import FlyOutInput from "./components/CompoundPattern/FlyOutInput";
 function App() {
-  const [count, setCount] = useState(0)
-
+  const {theme} = useTheme();
+  const customTextStyle = {
+    fontWeight: "bold",
+    fontStyle: "italic",
+    textDecoration: "underline",
+  };
+  const renderKelvin = useCallback(({value}) => <Kelvin value={value}/>,[])
+  const renderFahrenheit = useCallback(({value}) => <Fahrenheit value={value}/>,[])
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{padding:"50px",backgroundColor: theme === "light"  ? "white" : "black"}}>
+      <ThemeToggleButton/>
+      <Input/>
+      <FlyOutInput/>
+      <Listings />
+      <ListingsContainerComponent />
+      <HooksListing/>
+      <StyledText style={customTextStyle} />
+      <StyledButton />
+      <TemperatureConverter
+        renderKelvin={renderKelvin}
+        renderFahrenheit={renderFahrenheit}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
